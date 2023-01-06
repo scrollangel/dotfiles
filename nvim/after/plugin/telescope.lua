@@ -1,4 +1,3 @@
--- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
@@ -8,6 +7,7 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    file_ignore_patterns = { "node_modules" },
   },
 }
 
@@ -33,7 +33,5 @@ vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]re
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = 'Search on git files' })
 vim.keymap.set('n', '<leader>ps', function()
-	builtin.grep_string({ search = vim.fn.input("Grep > ") });
-end, {desc = 'Find projects'})
-
-
+  builtin.grep_string({ search = vim.fn.input("Grep > ") });
+end, { desc = 'Find projects' })
