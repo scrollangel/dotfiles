@@ -24,11 +24,6 @@ return require('packer').startup(function(use)
     use({
         "kylechui/nvim-surround",
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
     })
 
     -- LSP Configuration
@@ -68,5 +63,16 @@ return require('packer').startup(function(use)
         require("toggleterm").setup()
     end}
 
+    -- Zen mode
+    use { "folke/zen-mode.nvim" }
 
+    -- HTML
+    use('othree/html5.vim')
+    use('lumiliet/vim-twig')
+    
+    -- Wakatime
+    use('wakatime/vim-wakatime')
+
+    -- Github copilot
+    use('github/copilot.vim')
 end)

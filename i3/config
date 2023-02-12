@@ -17,7 +17,7 @@ font pango:monospace 8
 
 # Get out from the borders
 for_window [class="^.*"] border pixel 2
-for_window [class="^.*"] client.focused
+for_window [class="^.*"] client.focused #77dd77 #285577 #ffffff #2e9ef4 #285577
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -116,7 +116,7 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Terminals"
 set $ws2 "2: Browser"
-set $ws3 "3"
+set $ws3 "3: Helper"
 set $ws4 "4"
 set $ws5 "5: Discord"
 set $ws6 "6"
@@ -150,10 +150,8 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # set specific applications to workspace
-assign [class="Gnome-terminal"] $ws1
 assign [class="firefox"] $ws2
 assign [class="discord"] $ws5
-
 for_window [class="Spotify"] move to workspace $ws10
 
 # reload the configuration file
@@ -165,27 +163,27 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+# These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym ntilde resize grow width 10 px or 10 ppt
+                bindsym k resize grow height 10 px or 10 ppt
+                bindsym l resize shrink height 10 px or 10 ppt
+                bindsym ntilde resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+# same bindings, but for the arrow keys
+                bindsym Left resize shrink width 10 px or 10 ppt
+                bindsym Down resize grow height 10 px or 10 ppt
+                bindsym Up resize shrink height 10 px or 10 ppt
+                bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+# back to normal: Enter or Escape or $mod+r
+                bindsym Return mode "default"
+                bindsym Escape mode "default"
+                bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -194,11 +192,31 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+                colors {
+                        background #000000
+                                statusline #ffffff
+                                separator #666666
+
+                                focused_workspace  #dbdbdb #042238 #ffffff
+                                active_workspace   #333333 #5f676a #ffffff
+                                inactive_workspace #333333 #222222 #888888
+                                urgent_workspace   #2f343a #900000 #ffffff
+                                binding_mode       #2f343a #900000 #ffffff
+                }
 }
 
 # Custom rules
-bindsym $mod+shift+x exec i3lock
+exec compton
 
-exec_always feh --bg-scale ~/Pictures/flower_boy_wallpaper.jpg
+exec_always feh --bg-scale ~/Pictures/wallpaper.jpg
 exec_always setxkbmap -layout latam -model pc105
 
+##  Screenshots in files
+bindsym Print exec --no-startup-id maim --format=png "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-all.png"
+bindsym $mod+Print exec --no-startup-id maim --format=png --window $(xdotool getactivewindow) "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-current.png"
+bindsym Shift+Print exec --no-startup-id maim --format=png --select "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-selected.png"
+
+## Screenshots in clipboards
+bindsym Ctrl+Print exec --no-startup-id maim --format=png | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --format=png --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --format=png --select | xclip -selection clipboard -t image/png
